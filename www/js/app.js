@@ -102,8 +102,8 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
     });
   }])
 
-  .run(['$rootScope', '$ionicPlatform', '$ionicLoading','$cordovaStatusbar','$cordovaPush', '$cordovaToast','$cordovaDialogs',
-                        function($rootScope, $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs) {
+  .run(['$rootScope', '$ionicPlatform', '$ionicLoading','$cordovaStatusbar','$cordovaPush', '$cordovaToast','$cordovaDialogs', 'MobileEndpoint',
+                        function($rootScope, $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs, MobileEndpoint) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -293,7 +293,7 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
         // previously so multiple userids will be created with the same token unless you add code to check).
         function removeDeviceToken() {
             var tkn = {"token": $rootScope.regId};
-            $http.post('http://192.168.4.156:8000/qpevents/android/unsubscribe', JSON.stringify(tkn))
+            $http.post(MobileEndpoint.url + '/qpevents/android/unsubscribe', JSON.stringify(tkn))
                 .success(function (data, status) {
                     console.log("Token removed, device is successfully unsubscribed and will not receive push notifications.");
                 })
