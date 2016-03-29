@@ -51,13 +51,7 @@ Configure URL, username, and password of Orchestra Mobile API endpoint in www/js
         })
 
 
-         graceful-fs@3.0.8: graceful-fs version 3 and before will fail on newer node releases. Please update to graceful-fs@^4.0.0 as soon as possible.
-        npm WARN engine deep-extend@0.4.1: wanted: {"node":">=0.12.0","iojs":">=1.0.0"} (current: {"node":"0.10.37","npm":"1.4.28"})
-        npm WARN deprecated lodash@1.0.2: lodash@<3.0.0 is no longer maintained. Upgrade to lodash@^4.0.0.
-        npm WARN deprecated graceful-fs@1.2.3: graceful-fs version 3 and before will fail on newer node releases. Please update to graceful-fs@^4.0.0 as soon as possible.
-        npm WARN deprecated npmconf@2.1.2: this package has been reintegrated into npm and is now out of date with respect to npm
-        npm WARN deprecated pangyp@2.3.3: use node-gyp@3+ instead
-        npm WARN deprecated graceful-fs@2.0.3:
+
 
 When testing in browser via `ionic serve` leave URL empty and configure proxyURL in ionic.project:
 
