@@ -101,8 +101,8 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         });
     }])
 
-    .run(['$rootScope', '$ionicPlatform', '$ionicLoading', '$cordovaStatusbar', '$cordovaPush', '$cordovaToast', '$cordovaDialogs', 'MobileEndpoint',
-        function ($rootScope, $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs, MobileEndpoint) {
+    .run(['$rootScope', '$ionicPlatform', '$ionicLoading', '$cordovaStatusbar', '$cordovaPush', '$cordovaToast', '$cordovaDialogs', 'MobileEndpoint', 'MobileService',
+        function ($rootScope, $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs, MobileEndpoint, MobileService) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -192,19 +192,25 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     console.log("===current app regId=" + $rootScope.regId);
                     return;
                 }
-                console.log("Try to register with CORDOVA_PUSH PLUGIN");
-                $cordovaPush.register(config).then(function (result) {
-                    console.log("Register success " + result);
 
-                    //$cordovaToast.showShortCenter('Registered for push notifications');
-                    $rootScope.registerDisabled = true;
-                    // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
-                    if (ionic.Platform.isIOS()) {
-                        $rootScope.regId = result;
-                        storeDeviceToken("ios");
+                MobileService.checkDeviceToken().then(function (regId) {
+                    if (regId != undefined) {
+                        $rootScope.regId = regId;
+                    } else {
+                        $cordovaPush.register(config).then(function (result) {
+                            console.log("Register success " + result);
+
+                            //$cordovaToast.showShortCenter('Registered for push notifications');
+                            $rootScope.registerDisabled = true;
+                            // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
+                            if (ionic.Platform.isIOS()) {
+                                $rootScope.regId = result;
+                                storeDeviceToken("ios");
+                            }
+                        }, function (err) {
+                            console.log("Register error " + err)
+                        });
                     }
-                }, function (err) {
-                    console.log("Register error " + err)
                 });
             }
 
@@ -400,6 +406,22 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                         function (err) {
                             throw err.status + ':' + err.data;
                         });
+            },
+            checkDeviceToken: function () {
+                var device = ionic.Platform.device();
+                console.log("==CheckDeviceToken==");
+                console.log(device);
+                console.log("====");
+                return $http.get(MobileEndpoint.url + '/qpevents/android/token/' + device.uuid)
+                    .then(
+                        function (response) {
+                            console.log("CheckDeviceToken | SUCCESS |" + response.data);
+                            return response.data;
+                        }, function (err) {
+                            console.log("CheckDeviceToken | ERROR |" + err.code);
+                            return undefined;
+                        }
+                    )
             },
             storeDeviceToken: function (clientId) {
                 var type = ionic.Platform.isAndroid() ? "android" : "ios";
