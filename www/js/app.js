@@ -393,12 +393,12 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             throw err.status + ':' + err.data;
                         });
             },
-            storeVisit: function(visitId){
+            storeVisit: function (visitId) {
                 var device = ionic.Platform.device();
                 var body = {
-                    visitId : visitId
+                    visitId: visitId
                 };
-                $http.post(MobileEndpoint.url +'/qpevents/visit/store/'+device.uuid, JSON.stringify(body))
+                $http.post(MobileEndpoint.url + '/qpevents/visit/store/' + device.uuid, JSON.stringify(body))
                     .success(function (data, status) {
                         console.log("Visit stored, visit is successfully subscribed to receive push notifications.");
                     })
@@ -584,7 +584,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 visitId: 888 }
                      **/
                     console.log("ticket = " + ticket);
-                    //MobileService.storeVisit(ticket.visitId);
+                    MobileService.storeVisit(ticket.visitId);
                     $ionicViewSwitcher.nextDirection('exit');
                     $state.go('/ticket', {ticket: ticket, branch: branch, service: $scope.service, delay: delay});
                 });
