@@ -6,8 +6,9 @@
     "angular-qrcode": "monospaced/angular-qrcode#~5.1.0",
     "angular-leaflet-directive": "~0.7.13",
     "ngCordova": "~0.1.15-alpha",
-    "ionic-platform-web-client": "^0.2.1",
-    "sockjs-client": "^1.0.3"
+    "sockjs-client": "^1.0.3",
+    "ionic-service-core": "^0.1.10",
+    "ionic-service-push": "^0.1.13"
   },
   "dependencies": {
     "ionic-toast": "^0.2.0"

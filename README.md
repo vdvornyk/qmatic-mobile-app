@@ -24,6 +24,9 @@ Built with [Ionic Framework](http://ionicframework.com/), shows how easy it is t
 		$ cordova plugin add cordova-plugin-whitelist
 
 //for push notifications
+        $ ionic add ionic-service-core
+        $ ionic add ionic-service-push
+
 		$ ionic plugin add org.apache.cordova.console
         $ ionic plugin add org.apache.cordova.device
         $ ionic plugin add org.apache.cordova.dialogs
