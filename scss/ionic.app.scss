@@ -1,0 +1,86 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// custom color overrides.
+// Note that it’s before we load the rest of Ionic.
+// This is important!
+$positive:                        #8f002f !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+
+// custom styles 
+body {
+  height: auto;
+  min-height: 100%;
+}
+.scroll {
+  height: 100%;
+}
+.scroll .angular-leaflet-map {
+  height: 100%;
+}
+.leaflet-bottom {
+  bottom : 10px;
+}
+.leaflet-popup-content {
+  line-height: 0.4;
+}
+.leaflet-popup-content a {
+  float: right;
+}
+
+p.distance {
+  color: $calm;
+  font-style: italic;
+  font-weight: 200;
+}
+div.list-right {
+  float: right;
+  margin-right: 30px;
+}
+
+.ticket {
+	background: $stable;
+  background: url("../img/paper.jpg") center center;
+  text-align: center;
+	color: #444444;
+	text-rendering: optimizeLegibility;
+  line-height: 0.5;
+}
+.ticket h1 {
+	font-size: 5.5em;
+	font-weight: bold;
+	line-height: 1.1;
+}
+.ticket #qrcode {
+  margin-left: auto;
+  margin-right: auto;
+  width: 256px;
+}
+.ticket .bottom {
+ position: absolute;
+ bottom: 5px;
+ left: 0px; 
+}
+.ticket .wt {
+  padding: 20px;
+  font-size: 1.2em;
+}

@@ -1,0 +1,52 @@
+<ion-view hide-back-button="false">
+  
+  <div class="bar bar-subheader">
+    <div class="button-bar">
+      <a class="button button-dark" ng-click="showList()">List</a>
+      <a class="button button-dark" ng-click="showMap()">Map</a>
+    </div>
+  </div>
+  
+	<ion-content class="has-subheader" ng-show="listVisible">
+    <ion-list>
+      <div class="item item-divider">
+          Available Branches
+      </div>
+  		<ion-item ng-repeat="branch in branches" ng-click="openModal($index)" class="item-icon-left item-icon-right">
+            <i class="icon ion-location"></i>
+            <h2>{{ branch.name }}</h2>
+            <p>{{ branch.addressLine1 }}, {{ branch.addressLine2 }}</p>
+            <p>{{ branch.addressPostalCode }}, {{ branch.addressLine4 }}</p>
+            <p class="distance">{{ (branch.distance * 0.001) | number:2 }} km</p>
+
+            <div class="list-right">
+              <i class="icon ion-clock">
+                <span class="item-note">{{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}</span>
+              </i>
+            </div>
+  		</ion-item>
+  	</ion-list>
+  </ion-content>
+      
+  <ion-content class="has-subheader" data-tap-disabled="true" ng-show="mapVisible">
+    <leaflet defaults="map.defaults" center="map.center" markers="map.markers"></leaflet>
+  </ion-content>
+  
+  <script id="delay-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">When would like to come in?</h1>
+      </ion-header-bar>
+      <ion-content class="padding">
+        <button class="button button-block button-positive" ng-click="issueTicket(0)">Now</button>
+        <button class="button button-block button-positive" ng-click="issueTicket(300)">in 5 mins</button>
+        <button class="button button-block button-positive" ng-click="issueTicket(600)">in 10 mins</button>
+        <button class="button button-block button-positive" ng-click="issueTicket(900)">in 15 mins</button>
+        <button class="button button-block button-positive" ng-click="issueTicket(1200)">in 20 mins</button>
+        <button class="button button-block button-positive" ng-click="issueTicket(1800)">in 30 mins</button>
+        <button class="button button-block button-stable" ng-click="closeModal()">Cancel</button>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  
+</ion-view>

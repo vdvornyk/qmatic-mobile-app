@@ -1,0 +1,58 @@
+<ion-view hide-nav-bar="true">		
+	<ion-pane class="ticket">
+		<div class="row">
+      <div class="col"></div>
+		</div>
+    <div class="row">
+      <div class="col">
+        <h2>{{ service.name }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h1>{{ ticket.ticketNumber }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div ng-if="delay > 0">
+          <i class="icon ion-ios-alarm-outline"></i> {{ (delay * 1000) | date:'HH:mm' }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h2>{{ branch.name }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ branch.addressLine1 }}, {{ branch.addressLine2 }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>{{ branch.addressPostalCode }}, {{ branch.addressLine4 }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <qrcode version="2" error-correction-level="M" size="200" data="{{ ticket.visitId }}"></qrcode>
+      </div>
+    </div>
+    <div class="row bottom">
+      <div class="col">
+        <button class="button button-icon icon ion-trash-b" ng-click="deleteTicket()"></button>
+      </div>
+      <div class="col wt">
+        <i class="icon ion-clock"></i> {{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}
+      </div>
+    </div>
+	</ion-pane>
+</ion-view>

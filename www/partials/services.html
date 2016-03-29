@@ -1,0 +1,14 @@
+<ion-view hide-back-button="true">		
+	<ion-content>
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="getServices()"></ion-refresher>
+		<ion-list>
+      <div class="item item-divider">
+          Select Service
+      </div>
+			<ion-item ng-repeat="service in services" ng-click="selectService(service)" class="item-icon-right">
+				{{ service.name }}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
