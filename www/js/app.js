@@ -419,6 +419,10 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
     };
   }])
 
+    .controller('mainCtrl', ['$scope','$state','$log','MobileService', function($scope,$state,$log, MobileService){
+
+    }])
+
   .controller('servicesCtrl', ['$scope', '$state', '$log', 'MobileService', function($scope, $state, $log, MobileService) {
     
   	$scope.getServices = function() {
