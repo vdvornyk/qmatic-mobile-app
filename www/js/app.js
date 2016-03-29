@@ -20,19 +20,24 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
   	$stateProvider
   		.state('/', {
   			url : '/',
-  			templateUrl : 'partials/services.html',
-  			controller : 'servicesCtrl'
+  			templateUrl : 'partials/main.html',
+  			controller : 'mainCtrl'
   		})
+        .state('/services', {
+            url : '/services',
+            templateUrl : 'partials/services.html',
+            controller : 'servicesCtrl'
+        })
   		.state('/branches', {
   			url : '/branches',
-        params: {'service': {}},
+            params: {'service': {}},
   			templateUrl : 'partials/branches.html',
   			controller : 'branchesCtrl'
   		})
   		.state('/ticket', {
   			url : '/ticket',
   			params: {'ticket': {}, 'branch': {}, 'service': {}, 'delay': 0},
-        templateUrl : 'partials/ticket.html',
+            templateUrl : 'partials/ticket.html',
   			controller : 'ticketCtrl'
   		});
   }])
@@ -128,7 +133,7 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
         //====== PUSH NOTIFICATION REGISTERS
     document.addEventListener("deviceready", function(){
             registerForPushNotifications();
-            configureBackgroundMode();
+           //configureBackgroundMode();
         }, function(err) {
           alert("Registration error: " + err)
         });
@@ -153,16 +158,18 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
 
         function configureBackgroundMode(){
             cordova.plugins.backgroundMode.enable();
-
+            cordova.plugins.backgroundMode.configure({
+                        silent: true
+            });
             // Called when background mode has been activated
             cordova.plugins.backgroundMode.onactivate = function () {
-                setTimeout(function () {
-                    // Modify the currently displayed notification
-                    cordova.plugins.backgroundMode.configure({
-                        text:'Running in background for more than 5s now.'
-                    });
-                }, 5000);
+                    console.log("===BACKGROUND ACTIVATED==");
+            };
+
+            cordova.plugins.backgroundMode.ondeactivate = function () {
+                                console.log("===BACKGROUND DEACTIVATED==");
             }
+
         }
         // Register
         function registerForPushNotifications() {
@@ -212,24 +219,24 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
                 //storeDeviceToken("android");
             }
             else if (notification.event == "message") {
-                console.log("message received"+notification.message);
+                console.log("message received" + notification.message);
                 var message = decodeString(JSON.stringify(notification.message))
                 console.log("Decoded Message:"+message);
-                $cordovaDialogs.alert(message, "Push Notification Received");
+                $cordovaDialogs.alert(message, "Вас вызывают");
 
                 //$rootScope.$apply(function () {
                 //   $rootScope.notifications.push(message);
                 //})
-                $cordovaLocalNotification.schedule({
-                    id: 1,
-                    title: 'Jetzt Lernen',
-                    text: message,
-                    data: {
-                        customProperty: 'custom value'
-                    }
-                }).then(function (result) {
-                    console.log(result);
-                });
+//                $cordovaLocalNotification.schedule({
+//                    id: 1,
+//                    title: 'Jetzt Lernen',
+//                    text: message,
+//                    data: {
+//                        customProperty: 'custom value'
+//                    }
+//                }).then(function (result) {
+//                    console.log(result);
+//                });
             }
             else if (notification.event == "error")
                 $cordovaDialogs.alert(notification.msg, "Push notification error event");
@@ -326,8 +333,27 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
   	};
   }])
   
-  .factory('MobileService', ['$rootScope','$http', 'MobileEndpoint', function($rootScope, $http, MobileEndpoint){
+  .factory('MobileService', ['$rootScope','$http','$cordovaDialogs', 'MobileEndpoint', function($rootScope, $http, $cordovaDialogs, MobileEndpoint){
     return {
+      transfer: function(ticket){
+            var body = {
+                    'fromBranchId': ticket.branchId,
+                    'fromId': ticket.queueId,
+                    'visitId': ticket.visitId,
+                    'sortPolicy': "LAST"
+            };
+            return $http.post(MobileEndpoint.url + '/qsystem/mobile/rest/services/' + ticket.serviceId + '/branches/'+ticket.branchId+'/queues/'+ticket.queueId+'/visits/', body)
+                    .then(
+                      function(response) {
+                        return response.data;
+                      },
+                      function(err) {
+                        var title = "Ваша очередь прошла";
+                        var body = "Станьте в очередь еще раз";
+                        $cordovaDialogs.alert(body, title);
+                        return err;
+                      });
+      },
       services: function() {
         
         return $http.get(MobileEndpoint.url + '/qsystem/mobile/rest/services')
@@ -614,25 +640,25 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
   	};
 
 
-       $scope.returnToQueue = function(){
-            var actionSheet = $ionicActionSheet.show({
-                titleText: 'Are you sure you want to stay at the end of the Queue',
-                cancelText: 'Cancel',
-                destructiveText: 'ReturnToQueue',
-                cancel: function() {
-                    return true;
-                },
-                destructiveButtonClicked: function() {
-                    MobileService.transfer($scope.ticket.branchId, $scope.ticket.queueId, $scope.ticket.visitId)
-                        .then(function () {
-                            $state.go('/');
-                        });
-                }
-            });
+    $scope.returnToQueue = function(){
+                var actionSheet = $ionicActionSheet.show({
+                    titleText: 'Are you sure you want to stay at the end of the Queue',
+                    cancelText: 'Cancel',
+                    destructiveText: 'ReturnToQueue',
+                    cancel: function() {
+                        return true;
+                    },
+                    destructiveButtonClicked: function() {
+                        MobileService.transfer($scope.ticket)
+                            .then(function () {
+                                //TODO add logic based on return value to show correct screen
+                                $state.go('/');
+                            });
+                    }
+                });
 
-            $timeout(function() {
-                actionSheet();
-            }, 10 * 1000);
-        };
-
-  }]);
+                $timeout(function() {
+                    actionSheet();
+                }, 10 * 1000);
+            };
+}]);
