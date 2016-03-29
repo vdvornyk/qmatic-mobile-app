@@ -222,27 +222,13 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 if (notification.event == "registered") {
                     console.log("Handle Android, storing regid to $rootScope.regId=" + notification.regId);
                     $rootScope.regId = notification.regid;
-                    //storeDeviceToken("android");
+                    MobileService.storeDeviceToken();
                 }
                 else if (notification.event == "message") {
                     console.log("message received" + notification.message);
                     var message = decodeString(JSON.stringify(notification.message))
                     console.log("Decoded Message:" + message);
                     $cordovaDialogs.alert(message, "Вас вызывают");
-
-                    //$rootScope.$apply(function () {
-                    //   $rootScope.notifications.push(message);
-                    //})
-//                $cordovaLocalNotification.schedule({
-//                    id: 1,
-//                    title: 'Jetzt Lernen',
-//                    text: message,
-//                    data: {
-//                        customProperty: 'custom value'
-//                    }
-//                }).then(function (result) {
-//                    console.log(result);
-//                });
                 }
                 else if (notification.event == "error")
                     $cordovaDialogs.alert(notification.msg, "Push notification error event");
@@ -407,11 +393,22 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             throw err.status + ':' + err.data;
                         });
             },
+            storeVisit: function(visitId){
+                var device = ionic.Platform.device();
+                var body = {
+                    visitId : visitId
+                };
+                $http.post(MobileEndpoint.url +'/qpevents/visit/store/'+device.uuid, JSON.stringify(body))
+                    .success(function (data, status) {
+                        console.log("Visit stored, visit is successfully subscribed to receive push notifications.");
+                    })
+                    .error(function (data, status) {
+                            console.log("Error storing visit token." + data + " " + status)
+                        }
+                    );
+            },
             checkDeviceToken: function () {
                 var device = ionic.Platform.device();
-                console.log("==CheckDeviceToken==");
-                console.log(device);
-                console.log("====");
                 return $http.get(MobileEndpoint.url + '/qpevents/android/token/' + device.uuid)
                     .then(
                         function (response) {
@@ -423,10 +420,11 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                         }
                     )
             },
-            storeDeviceToken: function (clientId) {
+            storeDeviceToken: function () {
                 var type = ionic.Platform.isAndroid() ? "android" : "ios";
-                // link ticketId to regId
-                var user = {ticketId: clientId, type: type, token: $rootScope.regId};
+                var device = ionic.Platform.device();
+                // link deviceUUID to regId
+                var user = {deviceUUID: device.uuid, type: type, token: $rootScope.regId};
                 console.log("Post token for registered device with data " + JSON.stringify(user));
 
                 $http.post(MobileEndpoint.url + '/qpevents/android/user/register', JSON.stringify(user))
@@ -586,7 +584,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 visitId: 888 }
                      **/
                     console.log("ticket = " + ticket);
-                    MobileService.storeDeviceToken(ticket.visitId);
+                    //MobileService.storeVisit(ticket.visitId);
                     $ionicViewSwitcher.nextDirection('exit');
                     $state.go('/ticket', {ticket: ticket, branch: branch, service: $scope.service, delay: delay});
                 });
