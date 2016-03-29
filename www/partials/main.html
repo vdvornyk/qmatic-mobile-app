@@ -1,11 +1,3 @@
-<!--<ion-view hide-back-button="true">-->
-    <!--<ion-content>-->
-        <!--&lt;!&ndash;<ion-refresher pulling-text="Pull to refresh..." on-refresh="checkTicket()"></ion-refresher>&ndash;&gt;-->
-        <!--<ion-button>Your Tiket</ion-button>-->
-        <!--<ion-button>Get Ticket</ion-button>-->
-    <!--</ion-content>-->
-<!--</ion-view>-->
-
 <ion-view hide-back-button="true">
     <ion-header-bar align-title="left" class="bar-positive">
         <div class="buttons">
@@ -17,7 +9,7 @@
         </div>
     </ion-header-bar>
     <ion-content>
-        <ion-button>Your Tiket</ion-button>
-        <ion-button>Get Ticket</ion-button>
+        <button class="button button-block button-positive">Your Tiket</button>
+        <button class="button button-block button-positive" ng-click="navigateToServices()">Get Ticket</button>
     </ion-content>
 </ion-view>

@@ -407,7 +407,7 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
             var user = { ticketId: clientId, type: type, token: $rootScope.regId };
             console.log("Post token for registered device with data " + JSON.stringify(user));
 
-            $http.post('http://192.168.4.156:8080/qpevents/android/user/register', JSON.stringify(user))
+            $http.post(MobileEndpoint.url + '/qpevents/android/user/register', JSON.stringify(user))
                 .success(function (data, status) {
                     console.log("Token stored, device is successfully subscribed to receive push notifications.");
                 })
@@ -420,7 +420,9 @@ var app = angular.module('beat', ['ionic','ionic.service.core', 'ngCordova', 'le
   }])
 
     .controller('mainCtrl', ['$scope','$state','$log','MobileService', function($scope,$state,$log, MobileService){
-
+        $scope.navigateToServices = function(){
+            $state.go('/services');
+        }
     }])
 
   .controller('servicesCtrl', ['$scope', '$state', '$log', 'MobileService', function($scope, $state, $log, MobileService) {
