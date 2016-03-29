@@ -393,10 +393,11 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             throw err.status + ':' + err.data;
                         });
             },
-            storeVisit: function (visitId) {
+            storeVisit: function (branchId, visitId) {
                 var device = ionic.Platform.device();
                 var body = {
-                    visitId: visitId
+                    visitId: visitId,
+                    branchId: branchId
                 };
                 $http.post(MobileEndpoint.url + '/qpevents/visit/store/' + device.uuid, JSON.stringify(body))
                     .success(function (data, status) {
@@ -406,6 +407,19 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             console.log("Error storing visit token." + data + " " + status)
                         }
                     );
+            },
+            checkTicketForDevice: function () {
+                var device = ionic.Platform.device();
+                return $http.get(MobileEndpoint.url + '/qpevents/visit/device/' + device.uuid)
+                    .then(
+                        function (response) {
+                            console.log("checkTicketForDevice | SUCCESS |" + response.data);
+                            return response.data;
+                        }, function (err) {
+                            console.log("checkTicketForDevice | ERROR |" + err.code);
+                            return undefined;
+                        }
+                    )
             },
             checkDeviceToken: function () {
                 var device = ionic.Platform.device();
@@ -442,7 +456,17 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
     .controller('mainCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
         $scope.navigateToServices = function () {
             $state.go('/services');
+        };
+        $scope.checkTicketForDevice = function () {
+            MobileService.checkTicketForDevice().then(function (data) {
+                if (data != undefined) {
+                    // TODO: Activate BUTTON ISSUE TICKET
+                } else {
+                    // TODO: Activate BUTTON GET TICKET
+                }
+            })
         }
+
     }])
 
     .controller('servicesCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
@@ -584,7 +608,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 visitId: 888 }
                      **/
                     console.log("ticket = " + ticket);
-                    MobileService.storeVisit(ticket.visitId);
+                    MobileService.storeVisit(ticket.branchId, ticket.visitId);
                     $ionicViewSwitcher.nextDirection('exit');
                     $state.go('/ticket', {ticket: ticket, branch: branch, service: $scope.service, delay: delay});
                 });
