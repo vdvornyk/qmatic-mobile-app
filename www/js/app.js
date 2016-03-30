@@ -482,25 +482,25 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         };
         $scope.navigateToTicket = function () {
             var ticket = {
-                ticketNumber: issuedTicket.ticketNumber,
-                visitId: issuedTicket.visitId,
-                branchId: issuedTicket.branchId,
-                queueId: issuedTicket.queueId,
-                clientId: ticket.clientId,
+                ticketNumber: $scope.issuedTicket.ticketNumber,
+                visitId: $scope.issuedTicket.visitId,
+                branchId: $scope.issuedTicket.branchId,
+                queueId: $scope.issuedTicket.queueId,
+                clientId: $scope.issuedTicket.clientId
             };
 
             var branch = {
-                id: issuedTicket.branchId,
-                name: issuedTicket.branchName,
-                addressLine1: issuedTicket.branchAddressLine1,
-                addressLine2: issuedTicket.branchAddressLine2,
-                addressLine3: issuedTicket.branchAddressLine3,
-                addressLine4: issuedTicket.branchAddressLine4
+                id: $scope.issuedTicket.branchId,
+                name: $scope.issuedTicket.branchName,
+                addressLine1: $scope.issuedTicket.branchAddressLine1,
+                addressLine2: $scope.issuedTicket.branchAddressLine2,
+                addressLine3: $scope.issuedTicket.branchAddressLine3,
+                addressLine4: $scope.issuedTicket.branchAddressLine4
             };
 
             var service = {
-                serviceId: issuedTicket.serviceId,
-                name: issuedTicket.serviceName
+                serviceId: $scope.issuedTicket.serviceId,
+                name: $scope.issuedTicket.serviceName
             };
 
             $state.go('/ticket', {ticket: ticket, branch: branch, service: service, delay: 0});
