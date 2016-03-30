@@ -732,7 +732,6 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             }, 10 * 1000);
         };
 
-
         $scope.returnToQueue = function () {
             var actionSheet = $ionicActionSheet.show({
                 titleText: 'Are you sure you want to stay at the end of the Queue',
