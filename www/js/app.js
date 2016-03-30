@@ -540,7 +540,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         $scope.getServices();
     }])
 
-    .controller('branchesCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$log', '$timeout', '$ionicViewSwitcher', '$ionicModal', 'GeoService', 'MobileService', function ($scope, $rootScope, $state, $stateParams, $log, $timeout, $ionicViewSwitcher, $ionicModal, GeoService, MobileService) {
+    .controller('branchesCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$log', '$timeout', '$ionicViewSwitcher', '$ionicModal','$ionicHistory', 'GeoService', 'MobileService', function ($scope, $rootScope, $state, $stateParams, $log, $timeout, $ionicViewSwitcher, $ionicModal,$ionicHistory, GeoService, MobileService) {
         $scope.service = $stateParams.service;
 
         $scope.listVisible = true;
@@ -658,6 +658,11 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     console.log("ticket = " + ticket);
                     MobileService.storeVisit(ticket, $scope.service, branch);
                     $ionicViewSwitcher.nextDirection('exit');
+
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
+
                     $state.go('/ticket', {ticket: ticket, branch: branch, service: $scope.service, delay: delay});
                 });
         };
@@ -712,7 +717,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
 
     }])
 
-    .controller('ticketCtrl', ['$scope', '$state', '$stateParams', '$ionicActionSheet', '$timeout', '$log', 'MobileService', function ($scope, $state, $stateParams, $ionicActionSheet, $timeout, $log, MobileService) {
+    .controller('ticketCtrl', ['$scope', '$state', '$stateParams', '$ionicActionSheet','$ionicHistory', '$timeout', '$log', 'MobileService', function ($scope, $state, $stateParams, $ionicActionSheet,$ionicHistory, $timeout, $log, MobileService) {
         $scope.ticket = $stateParams.ticket;
         $scope.branch = $stateParams.branch;
         $scope.service = $stateParams.service;
