@@ -9,7 +9,7 @@
         </div>
     </ion-header-bar>
     <ion-content>
-        <button class="button button-block button-positive" disabled='{{ !disableGetTicket }}' >Your Tiket</button>
-        <button class="button button-block button-positive" ng-click="navigateToServices()" disabled="{{ disableGetTicket }}">Get Ticket</button>
+        <button class="button button-block button-positive" ng-click="navigateToTicket()" ng-disabled="ticket === undefined" >Your Tiket</button>
+        <button class="button button-block button-positive" ng-click="navigateToServices()" ng-disabled="ticket != undefined">Get Ticket</button>
     </ion-content>
 </ion-view>

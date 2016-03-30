@@ -413,7 +413,8 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 return $http.get(MobileEndpoint.url + '/qpevents/visit/device/' + device.uuid)
                     .then(
                         function (response) {
-                            console.log("checkTicketForDevice | SUCCESS |" + response.data);
+                            console.log("checkTicketForDevice | SUCCESS |");
+                            console.log(response.data);
                             return response.data;
                         }, function (err) {
                             console.log("checkTicketForDevice | ERROR |" + err.code);
@@ -454,8 +455,6 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
     }])
 
     .controller('mainCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
-        $scope.ticket = undefined;
-        $scope.disableGetTicket = false;
 
         $scope.navigateToServices = function () {
             $state.go('/services');
@@ -463,12 +462,21 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         $scope.checkTicketForDevice = function () {
             MobileService.checkTicketForDevice().then(function (data) {
                 if (data != undefined) {
-                    // TODO: Activate BUTTON ISSUE TICKET
+                    // TODO: Activate BUTTON YOUR TICKET
+                    $scope.ticket = data;
                 } else {
                     // TODO: Activate BUTTON GET TICKET
+                    $scope.ticket = undefined;
                 }
             })
-        }
+        };
+
+        $scope.navigateToTicket = function () {
+
+            $state.go('/ticket', {ticket: ticket, branch: branch, service: $scope.service, delay: delay});
+        };
+
+        $scope.checkTicketForDevice();
 
     }])
 
