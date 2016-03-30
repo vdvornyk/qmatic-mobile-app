@@ -514,7 +514,9 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         $scope.$on('$ionicView.enter', function() {
             // Code you want executed every time view is opened
             $scope.checkTicketForDevice();
-        })
+        });
+
+        $scope.checkTicketForDevice();
 
     }])
 
