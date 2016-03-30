@@ -465,7 +465,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         };
     }])
 
-    .controller('mainCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
+    .controller('mainCtrl', ['$rootScope','$scope', '$state', '$log', 'MobileService', function ($rootScope, $scope, $state, $log, MobileService) {
         $scope.navigateToServices = function () {
             $state.go('/services');
         };
@@ -478,7 +478,9 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     // TODO: Activate BUTTON GET TICKET
                     $scope.issuedTicket = undefined;
                 }
-            })
+            }).then(function(){
+                $rootScope.$broadcast('loading:hide');
+            });
         };
         $scope.navigateToTicket = function () {
             var ticket = {
