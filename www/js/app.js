@@ -454,6 +454,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
     }])
 
     .controller('mainCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
+        $scope.ticket = undefined;
         $scope.navigateToServices = function () {
             $state.go('/services');
         };
