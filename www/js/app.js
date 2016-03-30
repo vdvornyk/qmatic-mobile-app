@@ -399,7 +399,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     visitId: ticket.visitId,
                     branchId: ticket.branchId,
                     queueId: ticket.queueId,
-                    serviceId: service.serviceId,
+                    serviceId: ticket.serviceId,
                     serviceName: service.name,
                     branchId: branch.id,
                     clientId: ticket.clientId,
@@ -484,6 +484,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             var ticket = {
                 ticketNumber: $scope.issuedTicket.ticketNumber,
                 visitId: $scope.issuedTicket.visitId,
+                serviceId: $scope.issuedTicket.serviceId,
                 branchId: $scope.issuedTicket.branchId,
                 queueId: $scope.issuedTicket.queueId,
                 clientId: $scope.issuedTicket.clientId
@@ -506,7 +507,11 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             $state.go('/ticket', {ticket: ticket, branch: branch, service: service, delay: 0});
         };
 
-        $scope.checkTicketForDevice();
+
+        $scope.$on('$ionicView.enter', function() {
+            // Code you want executed every time view is opened
+            $scope.checkTicketForDevice();
+        })
 
     }])
 
@@ -730,6 +735,10 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             $timeout(function () {
                 actionSheet();
             }, 10 * 1000);
+        };
+
+        $scope.navigateToMain = function(){
+            $state.go('/');
         };
 
         $scope.returnToQueue = function () {

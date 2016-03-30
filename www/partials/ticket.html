@@ -47,12 +47,14 @@
       </div>
     </div>
     <div class="row bottom">
-      <div class="col">
-        <button class="button button-icon icon ion-trash-b" ng-click="deleteTicket()"></button>
-      </div>
-      <div class="col wt">
-        <i class="icon ion-clock"></i> {{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}
-      </div>
+      <!--<div class="col">-->
+        <!--<button class="button button-icon icon ion-trash-b" ng-click="deleteTicket()"></button>-->
+      <!--</div>-->
+      <!--<div class="col wt">-->
+        <!--<i class="icon ion-clock"></i> {{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}-->
+      <!--</div>-->
+        <button class="button button-block button-positive" ng-click="deleteTicket()">Delete</button>
+        <button class="button button-block button-positive" ng-click="navigateToMain()">Home</button>
     </div>
 	</ion-pane>
 </ion-view>
