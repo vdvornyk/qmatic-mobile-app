@@ -225,8 +225,10 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     MobileService.storeDeviceToken();
                 }
                 else if (notification.event == "message") {
-                    console.log("message received" + notification.message);
-                    var message = decodeString(JSON.stringify(notification.message))
+                    console.log("===MESSAGE===")
+                    console.log(notification);
+                    console.log("===END MESSAGE===")
+                    var message = decodeString(JSON.stringify(notification.payload.message));
                     console.log("Decoded Message:" + message);
                     $cordovaDialogs.alert(message, "Вас вызывают");
                 }
