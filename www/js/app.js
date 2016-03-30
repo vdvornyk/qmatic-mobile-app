@@ -390,7 +390,8 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             return;
                         },
                         function (err) {
-                            throw err.status + ':' + err.data;
+                            console.log(err.status + ':' + err.data);
+                            return;
                         });
             },
             storeVisit: function (ticket, service, branch) {
