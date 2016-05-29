@@ -178,7 +178,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                 var config = null;
                 if (ionic.Platform.isAndroid()) {
                     config = {
-                        "senderID": "672536410604"// REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
+                        "senderID": "397143508367"// REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
                     };
                 }
                 else if (ionic.Platform.isIOS()) {
