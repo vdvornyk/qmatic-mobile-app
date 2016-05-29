@@ -510,9 +510,13 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             $scope.checkTicketForDevice();
         });
 
-        $scope.checkTicketForDevice = function() {
+        $scope.checkTicketForDevice = function () {
             console.log("===CHECK TICKET FOR DEVICE===");
-            setTimeout($scope.checkTicketForDeviceInternal, 1500);
+            if ($rootScope.device != undefined) {
+                $scope.checkTicketForDeviceInternal();
+            } else {
+                setTimeout($scope.checkTicketForDeviceInternal, 1500);
+            }
         };
 
         $scope.checkTicketForDeviceInternal = function(){
