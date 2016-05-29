@@ -4,7 +4,8 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         //url: 'http://localhost:8080',
        // url: 'http://192.168.4.156:8080',
         //Global hosthttp://193.93.77.203:8080/
-        url: 'http://193.93.77.203:8080',
+        //url: 'http://193.93.77.203:8080',
+        url: 'http://192.168.4.164:8080',
         // url: '',
         username: 'mobile',
         password: 'ulan'
@@ -104,7 +105,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
     }])
 
     .run(['$rootScope', '$ionicPlatform', '$ionicLoading', '$cordovaStatusbar', '$cordovaPush', '$cordovaToast', '$cordovaDialogs', 'MobileEndpoint', 'MobileService',
-        function ($rootScope, $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs, MobileEndpoint, MobileService) {
+        function ($rootScope,  $ionicPlatform, $ionicLoading, $cordovaStatusbar, $cordovaPush, $cordovaToast, $cordovaDialogs, MobileEndpoint, MobileService) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -133,6 +134,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
 
             //====== PUSH NOTIFICATION REGISTERS
             document.addEventListener("deviceready", function () {
+                storeDevice();
                 registerForPushNotifications();
                 //configureBackgroundMode();
             }, function (err) {
@@ -155,8 +157,12 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             });
 
             // call to register automatically upon device ready
-
-
+            function storeDevice(){
+                $rootScope.device = ionic.Platform.device();
+                console.log("======DEVICE READY====");
+                console.log($rootScope.device);
+                console.log("======DEVICE READY FINISHED====");
+            }
             function configureBackgroundMode() {
                 cordova.plugins.backgroundMode.enable();
                 cordova.plugins.backgroundMode.configure({
@@ -399,7 +405,6 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                         });
             },
             storeVisit: function (ticket, service, branch) {
-                var device = ionic.Platform.device();
                 var body = {
                     visitId: ticket.visitId,
                     branchId: ticket.branchId,
@@ -415,7 +420,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     branchAddressLine4: branch.addressLine4
 
                 };
-                $http.post(MobileEndpoint.url + '/qpevents/visit/store/' + device.uuid, JSON.stringify(body))
+                $http.post(MobileEndpoint.url + '/qpevents/visit/store/' + $rootScope.device.uuid, JSON.stringify(body))
                     .success(function (data, status) {
                         console.log("Visit stored, visit is successfully subscribed to receive push notifications.");
                     })
@@ -425,8 +430,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     );
             },
             checkTicketForDevice: function () {
-                var device = ionic.Platform.device();
-                return $http.get(MobileEndpoint.url + '/qpevents/visit/device/' + device.uuid)
+                return $http.get(MobileEndpoint.url + '/qpevents/visit/device/' + $rootScope.device.uuid)
                     .then(
                         function (response) {
                             console.log("checkTicketForDevice | SUCCESS |");
@@ -439,8 +443,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                     )
             },
             checkDeviceToken: function () {
-                var device = ionic.Platform.device();
-                return $http.get(MobileEndpoint.url + '/qpevents/android/token/' + device.uuid)
+                return $http.get(MobileEndpoint.url + '/qpevents/android/token/' + $rootScope.device.uuid)
                     .then(
                         function (response) {
                             console.log("CheckDeviceToken | SUCCESS |" + response.data);
@@ -453,9 +456,8 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             },
             storeDeviceToken: function () {
                 var type = ionic.Platform.isAndroid() ? "android" : "ios";
-                var device = ionic.Platform.device();
                 // link deviceUUID to regId
-                var user = {deviceUUID: device.uuid, type: type, token: $rootScope.regId};
+                var user = {deviceUUID: $rootScope.device.uuid, type: type, token: $rootScope.regId};
                 console.log("Post token for registered device with data " + JSON.stringify(user));
 
                 $http.post(MobileEndpoint.url + '/qpevents/android/user/register', JSON.stringify(user))
@@ -474,19 +476,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
         $scope.navigateToServices = function () {
             $state.go('/services');
         };
-        $scope.checkTicketForDevice = function () {
-            MobileService.checkTicketForDevice().then(function (data) {
-                if (data != undefined) {
-                    // TODO: Activate BUTTON YOUR TICKET
-                    $scope.issuedTicket = data;
-                } else {
-                    // TODO: Activate BUTTON GET TICKET
-                    $scope.issuedTicket = undefined;
-                }
-            }).then(function(){
-                $rootScope.$broadcast('loading:hide');
-            });
-        };
+
         $scope.navigateToTicket = function () {
             var ticket = {
                 ticketNumber: $scope.issuedTicket.ticketNumber,
@@ -514,11 +504,29 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             $state.go('/ticket', {ticket: ticket, branch: branch, service: service, delay: 0});
         };
 
-
         $scope.$on('$ionicView.enter', function() {
             // Code you want executed every time view is opened
-             $scope.checkTicketForDevice();
+            console.log("====EVENT HEPPEND: $ionicView.enter ===");
+            $scope.checkTicketForDevice();
         });
+
+        $scope.checkTicketForDevice = function() {
+            console.log("===CHECK TICKET FOR DEVICE===");
+            //setTimeout($scope.checkTicketForDeviceInternal(), 2000);//setting timeout for 1.5s; device should loaded
+
+
+            MobileService.checkTicketForDevice().then(function (data) {
+                if (data != undefined) {
+                    // TODO: Activate BUTTON YOUR TICKET
+                    $scope.issuedTicket = data;
+                } else {
+                    // TODO: Activate BUTTON GET TICKET
+                    $scope.issuedTicket = undefined;
+                }
+            }).then(function () {
+                $rootScope.$broadcast('loading:hide');
+            });
+        };
 
     }])
 
@@ -624,7 +632,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
                             $rootScope.$broadcast('loading:hide');
                         });
                 }, function (err) {
-                    alert('Error getting GPS location!');
+                    alert('Пожалуйста включите GPS!');
                 });
         };
 
