@@ -512,6 +512,10 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
 
         $scope.checkTicketForDevice = function() {
             console.log("===CHECK TICKET FOR DEVICE===");
+            setTimeout($scope.checkTicketForDeviceInternal, 1500);
+        };
+
+        $scope.checkTicketForDeviceInternal = function(){
             MobileService.checkTicketForDevice().then(function (data) {
                 if (data != undefined) {
                     // TODO: Activate BUTTON YOUR TICKET
@@ -523,7 +527,7 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
             }).then(function () {
                 $rootScope.$broadcast('loading:hide');
             });
-        };
+        }
 
     }])
 
