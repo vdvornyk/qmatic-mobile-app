@@ -512,9 +512,6 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
 
         $scope.checkTicketForDevice = function() {
             console.log("===CHECK TICKET FOR DEVICE===");
-            //setTimeout($scope.checkTicketForDeviceInternal(), 2000);//setting timeout for 1.5s; device should loaded
-
-
             MobileService.checkTicketForDevice().then(function (data) {
                 if (data != undefined) {
                     // TODO: Activate BUTTON YOUR TICKET
