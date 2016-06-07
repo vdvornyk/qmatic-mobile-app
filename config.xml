@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.santander184081" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Qmatic Beat</name>
+  <name>MFA UA</name>
   <description>
-        Qmatic mobile client application.
+        MFA UA client application.
   </description>
-  <author email="developmentcommunity@qmatic.com" href="http://mobile.qmatic.com/">
-      Qmatic Group
+  <author email="mfa@gmail.com " href="http://mobile.qmatic.com/">
+      MFA
   </author>
   <content src="index.html"/>
   <access origin="*"/>
