@@ -538,10 +538,16 @@ var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'l
     .controller('servicesCtrl', ['$scope', '$state', '$log', 'MobileService', function ($scope, $state, $log, MobileService) {
 
         $scope.getServices = function () {
-
             MobileService.services()
                 .then(function (services) {
-                    $scope.services = services;
+                    $scope.services = []
+
+                    services.forEach(function (service) {
+                        if (service.id in [1, 2, 3, -1]) {
+                            $scope.services.push(service)
+                        }
+                    });
+
                 })
                 .then(function () {
                     // Stop the ion-refresher from spinning
