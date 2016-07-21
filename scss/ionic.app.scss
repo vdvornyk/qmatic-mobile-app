@@ -24,7 +24,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 $positive:                        #0256AC !default;
 
 // Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+//@import "www/lib/ionic/scss/ionic";
+@import "../bower_components/ionic/scss/ionic";
 
 // custom styles 
 body {

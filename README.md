@@ -27,11 +27,11 @@ Built with [Ionic Framework](http://ionicframework.com/), shows how easy it is t
         $ ionic add ionic-service-core
         $ ionic add ionic-service-push
 
-		$ ionic plugin add org.apache.cordova.console
-        $ ionic plugin add org.apache.cordova.device
-        $ ionic plugin add org.apache.cordova.dialogs
-        $ ionic plugin add org.apache.cordova.file
-        $ ionic plugin add org.apache.cordova.media
+		$ ionic plugin add cordova-plugin-console
+        $ ionic plugin add cordova-plugin-device
+        $ ionic plugin add cordova-plugin-dialogs
+        $ ionic plugin add cordova-plugin-file
+        $ ionic plugin add cordova-plugin-media
         $ ionic plugin add https://github.com/phonegap-build/PushPlugin
 //for push notifications
 
