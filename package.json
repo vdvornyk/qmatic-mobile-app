@@ -17,19 +17,16 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "org.apache.cordova.device",
-    "org.apache.cordova.console",
-    "org.apache.cordova.statusbar",
-    "org.apache.cordova.geolocation",
-    "com.ionic.keyboard",
-    "org.apache.cordova.dialogs",
-    "org.apache.cordova.file",
-    "org.apache.cordova.media",
+
+    "ionic-plugin-keyboard",
     {
       "locator": "https://github.com/phonegap-build/PushPlugin",
       "id": "com.phonegap.plugins.PushPlugin"
     },
+    "cordova-plugin-console",
     "cordova-plugin-device",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-geolocation",
     "cordova-plugin-dialogs",
     "cordova-plugin-file",
     "cordova-plugin-media"

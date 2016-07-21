@@ -1,4 +1,4 @@
-var app = angular.module('beat', ['ionic', 'ionic.service.core', 'ngCordova', 'leaflet-directive', 'monospaced.qrcode'])
+var app = angular.module('beat', ['ionic','ionic.service.core',  'ngCordova', 'leaflet-directive', 'monospaced.qrcode'])
 
     .constant('MobileEndpoint', {
         //url: 'http://localhost:8080',

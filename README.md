@@ -26,6 +26,7 @@ Built with [Ionic Framework](http://ionicframework.com/), shows how easy it is t
 //for push notifications
         $ ionic add ionic-service-core
         $ ionic add ionic-service-push
+        $ ionic add ionic-platform-web-client
 
 		$ ionic plugin add cordova-plugin-console
         $ ionic plugin add cordova-plugin-device

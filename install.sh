@@ -6,6 +6,9 @@ cordova plugin add cordova-plugin-statusbar
 cordova plugin add cordova-plugin-geolocation
 cordova plugin add cordova-plugin-whitelist
 cordova plugin add https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git
+
+ionic add ionic-platform-web-client
+
 ionic resources
 gulp sass
 ionic build android
