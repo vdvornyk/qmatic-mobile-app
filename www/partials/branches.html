@@ -19,11 +19,11 @@
             <p>{{ branch.addressPostalCode }}, {{ branch.addressLine4 }}</p>
             <p class="distance">{{ (branch.distance * 0.001) | number:2 }} km</p>
 
-            <div class="list-right">
-              <i class="icon ion-clock">
-                <span class="item-note">{{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}</span>
-              </i>
-            </div>
+            <!--<div class="list-right">-->
+              <!--<i class="icon ion-clock">-->
+                <!--<span class="item-note">{{ (branch.estimatedWaitTime * 1000) | date:'HH:mm' }}</span>-->
+              <!--</i>-->
+            <!--</div>-->
   		</ion-item>
   	</ion-list>
   </ion-content>
