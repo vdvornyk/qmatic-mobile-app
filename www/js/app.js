@@ -2,7 +2,7 @@ var app = angular.module('beat', ['ionic','ionic.service.core',  'ngCordova', 'l
 
     .constant('MobileEndpoint', {
         //url: 'http://localhost:8080',
-       // url: 'http://192.168.4.156:8080',
+//        url: 'http://192.168.4.156:8080',
         //Global hosthttp://193.93.77.203:8080/
         //url: 'http://193.93.77.203:8080',
         url: 'http://212.26.137.75:8080',
@@ -158,10 +158,12 @@ var app = angular.module('beat', ['ionic','ionic.service.core',  'ngCordova', 'l
 
             // call to register automatically upon device ready
             function storeDevice(){
-                $rootScope.device = ionic.Platform.device();
-                console.log("======DEVICE READY====");
-                console.log($rootScope.device);
-                console.log("======DEVICE READY FINISHED====");
+                if($rootScope.device == undefined){
+                    $rootScope.device = ionic.Platform.device();
+                    console.log("======DEVICE READY====");
+                    console.log($rootScope.device);
+                    console.log("======DEVICE READY FINISHED====");
+                }
             }
             function configureBackgroundMode() {
                 cordova.plugins.backgroundMode.enable();
@@ -512,11 +514,14 @@ var app = angular.module('beat', ['ionic','ionic.service.core',  'ngCordova', 'l
 
         $scope.checkTicketForDevice = function () {
             console.log("===CHECK TICKET FOR DEVICE===");
-            if ($rootScope.device != undefined) {
+            ionic.Platform.ready(function (){
+
+                if ($rootScope.device == undefined) {
+                    $rootScope.device = ionic.Platform.device();
+                }
+
                 $scope.checkTicketForDeviceInternal();
-            } else {
-                setTimeout($scope.checkTicketForDeviceInternal, 350);
-            }
+            });
         };
 
         $scope.checkTicketForDeviceInternal = function(){
