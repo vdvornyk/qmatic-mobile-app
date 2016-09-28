@@ -5,7 +5,7 @@ var app = angular.module('beat', ['ionic','ionic.service.core',  'ngCordova', 'l
 //        url: 'http://192.168.4.156:8080',
         //Global hosthttp://193.93.77.203:8080/
         //url: 'http://193.93.77.203:8080',
-        url: 'http://212.26.137.75:8080',
+        url: 'http://194.79.23.246:8080',
         // url: '',
         username: 'mobile',
         password: 'ulan'
