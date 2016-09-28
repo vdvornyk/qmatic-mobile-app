@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.santander184081" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>MFA UA</name>
+  <name>ЦНАП 24</name>
   <description>
-        MFA UA client application.
+    ЦНАП 24
   </description>
   <author email="mfa@gmail.com " href="http://mobile.qmatic.com/">
-      MFA
+    ЦНАП 24
   </author>
   <content src="index.html"/>
   <access origin="*"/>
